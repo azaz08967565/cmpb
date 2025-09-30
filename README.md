@@ -5,7 +5,7 @@ The goal of the project is to create a simple tool for creating small projects i
 
 # Installation
 
-To install this program on Linux use following commands:
+You can install cmpb on Linux using following commands:
 ```
 git clone https://github.com/azaz08967565/cmpb
 ```
@@ -18,7 +18,7 @@ make
 ```
 sudo make install
 ```
-To uninstall:
+to remove cmpb you can use:
 ```
 sudo make uninstall
 ```
@@ -26,7 +26,7 @@ It is possible to run this programm on Windows, but support and release filles w
 
 # Usage
 
-To use this just run the programm with the name of your future project as a second argument (names with spaces unsupported at the time).
+To use cmpb, simply run the program, specifying the name of your future project as an argument (names with spaces are currently not supported).
 
 ```bash
 cmpb <project_name>
@@ -43,4 +43,4 @@ It will create project with this structure:
         │       └── main.c
         └── makefile
 ```
-Different/Custom structures support will be added later
+Different/Custom structures support will be added later.
