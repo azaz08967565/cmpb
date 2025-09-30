@@ -5,7 +5,7 @@ The goal of the project is to create a simple tool for creating small projects i
 
 # Installation
 
-To install this program on Linux use following commands
+To install this program on Linux use following commands:
 ```
 git clone https://github.com/azaz08967565/cmpb
 ```
