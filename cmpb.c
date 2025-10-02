@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "config.h"
+
+char *type = "s";
 
 void createDir(const char *dirname) {
 	if(MKDIR(dirname) != 0) {
@@ -37,44 +40,19 @@ void createFile(const char *filename, const char *content) {
 void createCmain(const char *src_dir) {
 	char path[256];
 	snprintf(path, sizeof(path), "%s/main.c", src_dir);
-	const char *main_c_content = 
-	"#include <stdio.h>\n\n"
-	"int main(int argc, char *argv[]) {\n"
-	"\tprintf(\"Hello World!\\n\");\n"
-	"\treturn 0;\n"
-	"}\n";
 	createFile(path, main_c_content);
 }
-void createMakefile(char *cc, char *flags, const char *name, char *include, char *obj, char *lib, char *src) {
-	char *makefile_content = 
-	"CC = %s\n"
-	"CFLAGS = %s\n"
-	"INCLUDES = -I%s\n"
-	"LIBS = -L%s\n"
-	"SRC_DIR = %s\n"
-	"OBJ_DIR = %s\n"
-	"EXE = %s\n"
-	"MKDIR = mkdir -p\n"
-	"RM = rm -f\n"
-	"RMDIR = rm -rf\n"
-	"SRCS = \\\n"
-	"\t$(SRC_DIR)/main.c\n"
-	"OBJS = $(patsubst $(SRC_DIR)/%%.c, $(OBJ_DIR)/%%.o, $(SRCS))\n"
-	"all: $(EXE)\n"
-	"$(EXE): $(OBJS)\n"
-	"\t$(CC) -o $@ $^ $(LIBS)\n"
-	"$(OBJ_DIR)/%%.o: $(SRC_DIR)/%%.c | $(OBJ_DIR)\n"
-	"\t$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@\n"
-	"$(OBJ_DIR):\n"
-	"\t$(MKDIR) $(OBJ_DIR)\n"
-	"clean:\n"
-	"\t$(RM) $(EXE)\n"
-	"\t$(RMDIR) $(OBJ_DIR)\n"
-	".PHONY: all clean\n";
+void createMakefile(char *type,char *cc, char *flags, const char *name, char *include, char *obj, char *lib, char *src) {
 	char content [2048];
-	snprintf(content, sizeof(content), makefile_content,
+	if(!strcmp(type,"-l")) {
+	snprintf(content, sizeof(content), makefile_content_large,
 		cc, flags, include, lib,
 		src, obj, name);
+	}
+	else if(!strcmp(type,"-s")) {
+	snprintf(content, sizeof(content), makefile_content_simple,
+		cc,flags,"main.c",name);
+	}
 	createFile("makefile", content);
 }
 
@@ -85,12 +63,7 @@ void cd(const char *dir) {
 	}
 }
 
-int main(int argc, char *argv[]) {
-	if(argc < 2) {
-		printf("Usage: %s <project_name>\n", argv[0]);
-		return -1;
-	}
-	const char *name = argv[1];
+void createLargeProject(const char *name) {
 	createDir(name);
 	cd(name);
 	createDir("build");
@@ -99,7 +72,31 @@ int main(int argc, char *argv[]) {
 	createDir("build/obj");
 	createDir("build/src");
 	createCmain("build/src");
-	createMakefile("gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
+	createMakefile(type,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
+	cd("..");
 	printf("Project '%s' structure created successfully!\n", name);
+}
+
+void createSimpleProject(const char *name) {
+	createDir(name);
+	createCmain(name);
+	cd(name);
+	createMakefile(type,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
+	cd("..");
+}
+int main(int argc, char *argv[]) {
+	if(argc < 2) {
+		printf(help);
+		return -1;
+	}
+	const char *name = argv[1];
+	if(argc == 3) {
+		type = argv[2];
+		if(!strcmp(type,"-s")) createSimpleProject(name);
+		else if (!strcmp(type,"-l")) createLargeProject(name);
+		else printf(help);
+	}
+	else if(argc < 3) createSimpleProject(name);
+	else printf(help);
 	return 0;
 }
