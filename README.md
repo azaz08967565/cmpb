@@ -29,10 +29,17 @@ It is possible to run this programm on Windows, but support and release filles w
 To use cmpb, simply run the program, specifying the name of your future project as an argument (names with spaces are currently not supported).
 
 ```bash
-cmpb <project_name>
+cmpb <project_name> <flag>
 ```
-It will create project with this structure:
-
+Empty name of the project, flag `-h`, or project name `-h` will print help information
+With flag `-s`, or without any flags, program will create project with this structure:
+```
+<project_name>
+        ├── build
+        ├── <project_name>.c
+        └── makefile
+```
+With flag `-l` program will create project with this structure:
 ```
 <project_name>
         ├── build
@@ -40,7 +47,7 @@ It will create project with this structure:
         │   ├── lib
         │   ├── obj
         │   └── src
-        │       └── main.c
+        │       └── <project_name>.c
         └── makefile
 ```
 Different/Custom structures support will be added later.
