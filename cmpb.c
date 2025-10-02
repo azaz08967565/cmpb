@@ -12,7 +12,7 @@
 #include <unistd.h>
 #include "config.h"
 
-char *type = "s";
+char *flag = "-s";
 
 void createDir(const char *dirname) {
 	if(MKDIR(dirname) != 0) {
@@ -37,19 +37,19 @@ void createFile(const char *filename, const char *content) {
 	printf("%s - file created\n", filename);
 }
 
-void createCmain(const char *src_dir) {
+void createCmain(const char *name, const char *src_dir) {
 	char path[256];
-	snprintf(path, sizeof(path), "%s/main.c", src_dir);
+	snprintf(path, sizeof(path), "%s/%s.c", src_dir, name);
 	createFile(path, main_c_content);
 }
-void createMakefile(char *type,char *cc, char *flags, const char *name, char *include, char *obj, char *lib, char *src) {
+void createMakefile(char *flag,char *cc, char *flags, const char *name, char *include, char *obj, char *lib, char *src) {
 	char content [2048];
-	if(!strcmp(type,"-l")) {
+	if(!strcmp(flag,"-l")) {
 	snprintf(content, sizeof(content), makefile_content_large,
 		cc, flags, include, lib,
 		src, obj, name);
 	}
-	else if(!strcmp(type,"-s")) {
+	else if(!strcmp(flag,"-s")) {
 	snprintf(content, sizeof(content), makefile_content_simple,
 		cc,flags,"main.c",name);
 	}
@@ -71,18 +71,16 @@ void createLargeProject(const char *name) {
 	createDir("build/lib");
 	createDir("build/obj");
 	createDir("build/src");
-	createCmain("build/src");
-	createMakefile(type,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
-	cd("..");
+	createCmain(name,"build/src");
+	createMakefile(flag,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
 	printf("Project '%s' structure created successfully!\n", name);
 }
 
 void createSimpleProject(const char *name) {
 	createDir(name);
-	createCmain(name);
+	createCmain(name,name);
 	cd(name);
-	createMakefile(type,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
-	cd("..");
+	createMakefile(flag,"gcc","-O3",name,"build/include","build/obj","build/lib","build/src");
 }
 int main(int argc, char *argv[]) {
 	if(argc < 2) {
@@ -91,12 +89,16 @@ int main(int argc, char *argv[]) {
 	}
 	const char *name = argv[1];
 	if(argc == 3) {
-		type = argv[2];
-		if(!strcmp(type,"-s")) createSimpleProject(name);
-		else if (!strcmp(type,"-l")) createLargeProject(name);
-		else printf(help);
+		flag = argv[2];
+		if(!strcmp(flag,"-s")) createSimpleProject(name);
+		else if(!strcmp(flag,"-l")) createLargeProject(name);
+		else if(!strcmp(flag,"-h")) printf(help);
+		else printf("Incorrect flag, use \"cmpb -h\" for help\n");
 	}
-	else if(argc < 3) createSimpleProject(name);
+	else if(argc < 3) {
+		if(!strcmp(name,"-h")) printf(help);
+		else createSimpleProject(name);
+	}
 	else printf(help);
 	return 0;
 }

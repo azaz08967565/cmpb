@@ -1,8 +1,9 @@
 const char *help =
-	"Usage: cmpb <project_name> <type>\n"
-	"List of types:\n"
+	"Usage: cmpb <project_name> <flag>\n"
+	"List of flags:\n"
 	"-s - simple project\n"
-	"-l - large project\n";
+	"-l - large project\n"
+	"-h - prints this message\n";
 const char *main_c_content = 
 	"#include <stdio.h>\n\n"
 	"int main(int argc, char *argv[]) {\n"
