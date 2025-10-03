@@ -1,5 +1,5 @@
 all:
-	tcc -O3 cmpb.c -o cmpb
+	gcc -O3 cmpb.c -o cmpb
 install: cmpb
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	cp -f cmpb $(DESTDIR)$(PREFIX)/bin

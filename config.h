@@ -37,4 +37,4 @@ char *makefile_content_large =
 	".PHONY: all clean\n";
 char *makefile_content_simple =
 	"all:\n"
-	"\t%s %s %s -o %s\n";
+	"\t%s %s %s.c -o %s\n";

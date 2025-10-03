@@ -1,6 +1,6 @@
 #ifdef _WIN32
 	#include <windows.h>
-	#define MKDIR(path) _mkdir(path)
+	#define MKDIR(path) mkdir(path)
 #else
 	#include <sys/stat.h>
 	#include <sys/types.h>
@@ -51,7 +51,7 @@ void createMakefile(char *flag,char *cc, char *flags, const char *name, char *in
 	}
 	else if(!strcmp(flag,"-s")) {
 	snprintf(content, sizeof(content), makefile_content_simple,
-		cc,flags,"main.c",name);
+		cc,flags,name,name);
 	}
 	createFile("makefile", content);
 }
