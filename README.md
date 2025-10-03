@@ -1,6 +1,6 @@
-# cmpb - C project builder
+# cpb - C project builder
 
-C mini builder - is a tool to build small projects in C. It's automatically generates directories, Makefile, main.c file with "Hello world!" program. 
+C project builder - is a tool to build small projects in C. It's automatically generates directories, Makefile, main.c file with "Hello world!" program. 
 The goal of the project is to create a simple tool for creating small projects in C, without manually creating folders and fighting with make and/or cmake.
 
 # Installation
