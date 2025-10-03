@@ -22,7 +22,7 @@ to remove cpb you can use:
 ```
 sudo make uninstall
 ```
-It is possible to run this programm on Windows, macOS, and other linux distros, but support and release filles will be added later
+It is possible to run this program on Windows, macOS, and other linux distros, but support and release filles will be added later
 
 # Usage
 
