@@ -32,6 +32,7 @@ To use cmpb, simply run the program, specifying the name of your future project 
 cmpb <project_name> <flag>
 ```
 Empty name of the project, flag `-h`, or project name `-h` will print help information
+
 With flag `-s`, or without any flags, program will create project with this structure:
 ```
 <project_name>
