@@ -70,6 +70,7 @@ void createMakefile(char *flag,char *cc, char *flags, const char *name, char *in
 			cc, flags, include, lib,
 			src, obj, name);
 		createFile("makefile", content);
+		free(content);
 	}
 	else if(!strcmp(flag,"-s")) {
 		int size = snprintf(NULL,0,makefile_content_simple,cc,flags,name,name);
@@ -85,6 +86,7 @@ void createMakefile(char *flag,char *cc, char *flags, const char *name, char *in
 		snprintf(content, size+1,makefile_content_simple,
 		cc,flags,name,name);
 		createFile("makefile", content);
+		free(content);
 	}
 	else {
 	printf("ERROR unknown flag for makefile");
