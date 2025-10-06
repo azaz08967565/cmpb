@@ -38,22 +38,58 @@ void createFile(const char *filename, const char *content) {
 }
 
 void createCmain(const char *name, const char *src_dir) {
-	char path[256];
-	snprintf(path, sizeof(path), "%s/%s.c", src_dir, name);
+	int size = snprintf(NULL, 0, "%s/%s.c", src_dir, name);
+	if(size < 0) {
+		printf("ERROR formating C main failed\n");
+		exit(EXIT_FAILURE);
+	}
+	char *path = (char*)malloc(size+1);
+	if(!path) {
+		printf("ERROR memory allocation failed\n");
+		exit(EXIT_FAILURE);
+	} 
+	snprintf(path, size+1, "%s/%s.c", src_dir, name);
 	createFile(path, main_c_content);
+	free(path);
 }
 void createMakefile(char *flag,char *cc, char *flags, const char *name, char *include, char *obj, char *lib, char *src) {
-	char content [2048];
 	if(!strcmp(flag,"-l")) {
-	snprintf(content, sizeof(content), makefile_content_large,
-		cc, flags, include, lib,
-		src, obj, name);
+		int size = snprintf(NULL,0, makefile_content_large,
+			cc, flags, include, lib,
+			src, obj, name);
+		if(size < 0) {
+		printf("ERROR formating C main failed\n");
+		exit(EXIT_FAILURE);
+		}
+		char *content = (char*)malloc(size+1);
+		if(!content) {
+			printf("ERROR memory allocation failed\n");
+			exit(EXIT_FAILURE);
+		}
+		snprintf(content, size+1,makefile_content_large,
+			cc, flags, include, lib,
+			src, obj, name);
+		createFile("makefile", content);
 	}
 	else if(!strcmp(flag,"-s")) {
-	snprintf(content, sizeof(content), makefile_content_simple,
+		int size = snprintf(NULL,0,makefile_content_simple,cc,flags,name,name);
+		if(size < 0) {
+			printf("ERROR formating C main failed\n");
+			exit(EXIT_FAILURE);
+		}
+		char *content = (char*)malloc(size+1);
+		if(!content) {
+			printf("ERROR memory allocation failed\n");
+			exit(EXIT_FAILURE);
+		}
+		snprintf(content, size+1,makefile_content_simple,
 		cc,flags,name,name);
+		createFile("makefile", content);
 	}
-	createFile("makefile", content);
+	else {
+	printf("ERROR unknown flag for makefile");
+	exit(EXIT_FAILURE);
+	}
 }
 
 void cd(const char *dir) {
