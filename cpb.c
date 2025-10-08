@@ -56,7 +56,7 @@ void createMakefile(char *flag,char *cc, char *flags, const char *name, char *in
 	if(!strcmp(flag,"-l")) {
 		int size = snprintf(NULL,0, makefile_content_large,
 			cc, flags, include, lib,
-			src, obj, name);
+			src, obj,name,name);
 		if(size < 0) {
 		printf("ERROR formating C main failed\n");
 		exit(EXIT_FAILURE);
@@ -68,7 +68,7 @@ void createMakefile(char *flag,char *cc, char *flags, const char *name, char *in
 		}
 		snprintf(content, size+1,makefile_content_large,
 			cc, flags, include, lib,
-			src, obj, name);
+			src, obj,name, name);
 		createFile("makefile", content);
 		free(content);
 	}

@@ -22,7 +22,7 @@ char *makefile_content_large =
 	"RM = rm -f\n"
 	"RMDIR = rm -rf\n"
 	"SRCS = \\\n"
-	"\t$(SRC_DIR)/main.c\n"
+	"\t$(SRC_DIR)/%s.c\n"
 	"OBJS = $(patsubst $(SRC_DIR)/%%.c, $(OBJ_DIR)/%%.o, $(SRCS))\n"
 	"all: $(EXE)\n"
 	"$(EXE): $(OBJS)\n"
