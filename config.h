@@ -1,5 +1,5 @@
 const char *help =
-	"Usage: cmpb <project_name> <flag>\n"
+	"Usage: cpb <project_name> <flag>\n"
 	"List of flags:\n"
 	"-s - simple project\n"
 	"-l - large project\n"
